@@ -15,7 +15,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.pin.SetPinActivity" android:exported="false"/>
+        <activity android:name=".ui.register.RegisterActivity" android:exported="false"/>
         <activity android:name=".ui.main.MainActivity" android:exported="false"/>
+        <activity android:name=".ui.report.CreateReportActivity" android:exported="false"/>
     </application>
 </manifest>

@@ -1,37 +1,45 @@
 # Jami3ty - Android app
 
+Student platform: register, log in, publish reports, browse services, and show your student barcode.
+
 ## Requirements
-- Android Studio or JDK 17 (CI uses Temurin 17)
-- A Firebase project with an Android app for `com.jami3ty.app`
+- JDK 17 (CI uses Temurin 17) or Android Studio
+- A Firebase project with an Android app for package `com.jami3ty.app`
+  - Enable **Authentication > Email/Password**
+  - Create a **Firestore** database and publish `firestore.rules` (in the repo root: firestore.rules)
 
 ## Setup
 1. Download `google-services.json` from the Firebase console.
 2. Put it at `android/app/google-services.json` for local builds.
-   For CI, base64-encode it and store it in the GitHub secret `GOOGLE_SERVICES_JSON`
-   (`base64 -w0 google-services.json`).
+   For CI, store it base64-encoded in the GitHub secret `GOOGLE_SERVICES_JSON`:
+   `base64 -w0 google-services.json`
 
 ## Build
     cd android
-    ./gradlew assembleRelease        # APK: app/build/outputs/apk/release/
-    ./gradlew assembleDebug          # APK: app/build/outputs/apk/debug/
+    ./gradlew assembleRelease     # app/build/outputs/apk/release/
+    ./gradlew assembleDebug       # app/build/outputs/apk/debug/
 
 The release build is signed with the debug key so it can be sideloaded.
 Use a real release keystore before publishing to the Play Store.
 
 ## CI
 `.github/workflows/build_apk.yml` runs on pushes and PRs to main/master.
-It fails with a clear message if `GOOGLE_SERVICES_JSON` is missing. The APK is
-uploaded as the artifact `jami3ty-release-apk` (Actions tab, latest run).
+It fails with a clear message if `GOOGLE_SERVICES_JSON` is missing.
+The APK is uploaded as the artifact `jami3ty-release-apk`.
+
+## Screens
+- Login (email/password), biometric unlock for accounts that enabled it
+- Register (name, university, email, password)
+- Home: all published reports (newest first), with a Lottie empty state
+- `+`: publish a report (Lottie success animation)
+- Discover: student services
+- My reports (Inbox): only your reports
+- Profile: details, Code 128 student barcode, biometric toggle, logout
 
 ## Structure
-- `ui/login` - biometric login, falls back to PIN setup
-- `ui/pin` - 4-digit PIN stored in EncryptedSharedPreferences
-- `ui/main` - bottom navigation hosting the tab fragments
-- `ui/home`, `ui/discover`, `ui/inbox`, `ui/profile`, `ui/reels` - tab screens (placeholders for now)
-- `data/repo` - Firestore access
-- Languages: English, French, Arabic (RTL supported)
+- `data/model` - Student, Report
+- `data/repo` - Firebase Auth (AuthRepo), Firestore (FirestoreRepo)
+- `data/session` - encrypted local session (EncryptedSharedPreferences)
+- `ui/*` - screens; `ui/common` - shared list, biometrics, barcode helpers
 
-## Known gaps
-- Tab screens are placeholders; no real content yet.
-- Login does not verify an existing PIN; without biometrics it always goes to PIN setup.
-- Not compiled in the environment where these fixes were made; run CI to confirm.
+Languages: English, French, Arabic (RTL supported).
