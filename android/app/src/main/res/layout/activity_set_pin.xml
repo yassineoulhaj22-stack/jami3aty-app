@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:gravity="center" android:padding="32dp"
+    android:background="#0F0B1F">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Set up PIN" android:textSize="24sp" android:textColor="@android:color/white"/>
+    <EditText android:id="@+id/etPin" android:layout_width="match_parent" android:layout_height="56dp"
+        android:inputType="numberPassword" android:maxLength="4" android:hint="4-digit PIN"
+        android:textColor="@android:color/white"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnsavPin" android:layout_width="match_parent" android:layout_height="56dp"
+        android:layout_marginTop="24dp" android:text="Save" android:backgroundTint="#7C3AED"/>
+</LinearLayout>
