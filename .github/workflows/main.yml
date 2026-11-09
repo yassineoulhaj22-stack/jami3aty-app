@@ -1,0 +1,51 @@
+name: Build Android Release APK
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Decode Google Services JSON
+        env:
+          GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          if [ -n "$GOOGLE_SERVICES_JSON_BASE64" ]; then
+            mkdir -p android/app/src/main
+            echo "$GOOGLE_SERVICES_JSON_BASE64" | base64 --decode > android/app/src/main/google-services.json
+            echo "google-services.json successfully decoded and placed."
+          else
+            echo "Error: GOOGLE_SERVICES_JSON secret is missing!"
+            exit 1
+          fi
+
+      - name: Grant execute permission for Gradle wrapper
+        run: |
+          cd android
+          chmod +x gradlew
+
+      - name: Build Release APK with Gradle
+        run: |
+          cd android
+          ./gradlew assembleRelease --stacktrace
+
+      - name: Upload Release APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jami3ty-release-apk
+          path: android/app/build/outputs/apk/release/app-release.apk
