@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_home">Accueil</string>
+    <string name="nav_discover">Découvrir</string>
+    <string name="nav_inbox">Messages</string>
+    <string name="nav_profile">Profil</string>
+    <string name="login_button">Se connecter</string>
+    <string name="login_title">Bienvenue sur Jami3ty</string>
+    <string name="pin_invalid">Le code PIN doit contenir 4 chiffres</string>
+    <string name="coming_soon">Bientôt disponible</string>
+    <string name="biometric_error_access_denied">Accès refusé</string>
+</resources>

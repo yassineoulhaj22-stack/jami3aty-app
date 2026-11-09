@@ -6,5 +6,9 @@
     <string name="nav_plus">+</string>
     <string name="nav_inbox">Inbox</string>
     <string name="nav_profile">Profile</string>
-    <string name="biometric_error_access_denied">Accès refusé</string>
+    <string name="login_button">Log in</string>
+    <string name="login_title">Welcome to Jami3ty</string>
+    <string name="pin_invalid">PIN must be 4 digits</string>
+    <string name="coming_soon">Coming soon</string>
+    <string name="biometric_error_access_denied">Access denied</string>
 </resources>

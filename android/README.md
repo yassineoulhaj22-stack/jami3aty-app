@@ -1,54 +1,37 @@
-# Jami3ty - Android Native App
+# Jami3ty - Android app
 
-Complete production-ready source code generated.
+## Requirements
+- Android Studio or JDK 17 (CI uses Temurin 17)
+- A Firebase project with an Android app for `com.jami3ty.app`
 
-## Structure
-android/
-  settings.gradle
-  build.gradle
-  gradle.properties
-  gradle/wrapper/gradle-wrapper.properties
-  gradlew, gradlew.bat
-  app/
-    build.gradle
-    proguard-rules.pro
-    src/main/
-      AndroidManifest.xml
-      java/com/jami3ty/app/Jami3tyApp.kt
-      kotlin/com/jami3ty/app/
-        ui/login/LoginActivity.kt
-        ui/pin/SetPinActivity.kt
-        ui/main/MainActivity.kt
-        ui/home/HomeFragment.kt
-        ui/discover/DiscoverFragment.kt
-        ui/inbox/InboxFragment.kt
-        ui/reels/ReelsFragment.kt
-        ui/profile/ProfileFragment.kt
-        data/repo/FirestoreRepo.kt
-      res/
-        values/ colors.xml strings.xml themes.xml styles.xml
-        values-ar/ strings.xml
-        values-fr/ strings.xml
-        layout/ activity_login.xml activity_main.xml activity_set_pin.xml fragment_home.xml fragment_reels.xml fragment_profile.xml reel_item.xml
-        menu/ bottom_nav_menu.xml
-        xml/ network_security_config.xml
-        raw/ success.json
-      google-services.json (injected via GitHub Secret)
-
-## Features
-- Min SDK 21 / Target SDK 34
-- BiometricPrompt with PIN fallback (EncryptedSharedPreferences)
-- Purple Material3 UI, bottom navigation with micro-interactions
-- Lottie success animations
-- RTL Arabic, French, English i18n
-- ViewPager2 Reels with Share intent
-- Firestore repository pattern
-- GitHub Actions build workflow
+## Setup
+1. Download `google-services.json` from the Firebase console.
+2. Put it at `android/app/google-services.json` for local builds.
+   For CI, base64-encode it and store it in the GitHub secret `GOOGLE_SERVICES_JSON`
+   (`base64 -w0 google-services.json`).
 
 ## Build
-./gradlew assembleRelease
+    cd android
+    ./gradlew assembleRelease        # APK: app/build/outputs/apk/release/
+    ./gradlew assembleDebug          # APK: app/build/outputs/apk/debug/
+
+The release build is signed with the debug key so it can be sideloaded.
+Use a real release keystore before publishing to the Play Store.
 
 ## CI
-.github/workflows/build_apk.yml builds on push to main, uses secret GOOGLE_SERVICES_JSON (base64), uploads APK artifact.
+`.github/workflows/build_apk.yml` runs on pushes and PRs to main/master.
+It fails with a clear message if `GOOGLE_SERVICES_JSON` is missing. The APK is
+uploaded as the artifact `jami3ty-release-apk` (Actions tab, latest run).
 
-Download APK: GitHub → Actions tab → latest run → Artifacts → jami3ty-release-apk
+## Structure
+- `ui/login` - biometric login, falls back to PIN setup
+- `ui/pin` - 4-digit PIN stored in EncryptedSharedPreferences
+- `ui/main` - bottom navigation hosting the tab fragments
+- `ui/home`, `ui/discover`, `ui/inbox`, `ui/profile`, `ui/reels` - tab screens (placeholders for now)
+- `data/repo` - Firestore access
+- Languages: English, French, Arabic (RTL supported)
+
+## Known gaps
+- Tab screens are placeholders; no real content yet.
+- Login does not verify an existing PIN; without biometrics it always goes to PIN setup.
+- Not compiled in the environment where these fixes were made; run CI to confirm.

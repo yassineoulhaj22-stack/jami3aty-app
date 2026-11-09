@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_home">الرئيسية</string>
+    <string name="nav_discover">اكتشف</string>
+    <string name="nav_inbox">الرسائل</string>
+    <string name="nav_profile">الملف الشخصي</string>
+    <string name="login_button">تسجيل الدخول</string>
+    <string name="login_title">مرحباً بك في Jami3ty</string>
+    <string name="pin_invalid">يجب أن يتكون الرمز من 4 أرقام</string>
+    <string name="coming_soon">قريباً</string>
+    <string name="biometric_error_access_denied">تم رفض الوصول</string>
+</resources>
